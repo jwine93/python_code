@@ -31,38 +31,66 @@ class SmartRaster(arcpy.Raster):
             "pixelType": pixelType
         }
 
+####
 
-    # def calculate_ndvi(self,  band4_index = 4, band3_index = 3):
+# Calculate NDVI method for the SmartRaster class
 
-    #     """Calculate NDVI using the NIR and Red bands."""
+    def calculate_ndvi(self,  band4_index = 4, band3_index = 3):
+
+        # """Calculate NDVI using the NIR and Red bands."""
        
-    #     # set up an indicator about whether things work for later
-    #     okay = True
+        # set up an indicator about whether things work for later
+        okay = True
 
-    #     #embed everything in a try/except block
-    #     # First get the bands.  You can use the band numbers to get the bands
-    #     #   from the raster. 
+        #embed everything in a try/except block
+        # First get the bands.  You can use the band numbers to get the bands
+        #   from the raster. 
 
-    #     # Your code:
+        # Your code:
+        try: 
+                
+            # load just the NIR band into a raster object
+            nir = arcpy.Raster(f"{self.catalogPath}/Band_{band4_index}")  # Band 4 (NIR)
+
+            # load just the red band into a raster object
+
+            red = arcpy.Raster(f"{self.catalogPath}/Band_{band3_index}")  # Band 3 (Red)
+
+            # In the case of the image I provided you
+            #  the NIR band is "Band_4" and the
+            #  red band is "Band_3"
+
+        except Exception as e:  # this is some problem reading the image
+            # Handle errors and return failure
+            print(f"Error in calculate_ndvi: {e}")
+            return False, None
+    
 
 
-      
+        # Now we have the two bands.    
+        #   calculate (NIR-Red)/(NIR+red), which is the formula for
+        #   NDVI. 
 
+        #  Embed in a try/except block, so we can catch any errors that might occur
 
+        # Calculate the NDVI, and return an "okay, ndvi" if it worked, 
+        #   okay, e as the exception if it didn't.
 
-    #     # Now we have the two bands.    
-    #     #   calculate (NIR-Red)/(NIR+red), which is the formula for
-    #     #   NDVI. 
+        #your code:
 
-    #     #  Embed in a try/except block, so we can catch any errors that might occur
+        try:
+        # Calculate numerator and denominator
+             # Calculate NDVI using the formula
+            ndvi = (nir - red) / (nir + red)
+            
+            return okay, ndvi
 
-    #     # Calculate the NDVI, and return an "okay, ndvi" if it worked, 
-    #     #   okay, e as the exception if it didn't.
-
-    #     #your code:
-
-
-       
+        # if problem during NDVI calculation    
+        except Exception as e:
+            okay = False
+            print("Error calculating NDVI: ", e)
+            return okay
+        
 
 
 

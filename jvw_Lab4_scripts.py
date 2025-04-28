@@ -1,7 +1,7 @@
 import arcpy
 import pandas as pd
 import matplotlib.pyplot as plt
-import Lab4_functions as l4
+import jvw_Lab4_functions as l4
 import importlib
 
 ## TESTING
@@ -24,7 +24,8 @@ import importlib
 #   
 # Set the workspace to point to the geodatabase you are using for this lab
 
-arcpy.env.workspace = r"R:\2025\Spring\GEOG562\Instructors\kennedy_2025\Lab4\Lab4_arcproject_REK\Lab4_arcproject_REK.gdb" 
+arcpy.env.workspace = r"R:\2025\Spring\GEOG562\Students\wineju\Lab4_JVW\lab4_arcproject_jvw\lab4_arcproject_jvw.gdb" 
+print("done")
 
 ############################################################################
 # Block 3:  We are going to work with the notion of extending raster objects
@@ -46,12 +47,14 @@ print(r.metadata["bounds"])
 # Question 1
 #  Why do we need to use the "super()" function in the definition of the SmartRaster?
 
-# Your answer:
+# Your answer: We need to use the super() function to call the 
+# parent class's __init__ method, which initializes the base Raster object. 
+# This allows us to expand the Raster class while still having all the 
+# necessary properties and methods of the base class.
 
 
 
-
-
+#_____________________________________
 
 # Block 4:  Add a method to the SmartRaster class to calculate the NDVI
 #
@@ -67,7 +70,9 @@ print(r.metadata["bounds"])
 #       The method should return a tuple with the okay, NDVI_object
 
 #  Again, you'll need to add code to the calculate_ndvi function
+importlib.reload(l4)
 
+# not sure what to pu tas arguments in this function???
 okay, ndvi = r.calculate_ndvi()
 
 # Assuming this is okay, write it to a new raster that we can use later
@@ -97,194 +102,194 @@ else:
 
 
 
-##########################################################
-# Block 5:  Now, let's look at setting up an equivalent type of
-#  vector object.  This is going to be different because there
-#  really isn't one in Arc the same way there is for Rasters.
-#  However, when we work with feature classes, we create
-#  feature layers that exist temporarily during a session, which
-#  is kind of like an object.   
+# ##########################################################
+# # Block 5:  Now, let's look at setting up an equivalent type of
+# #  vector object.  This is going to be different because there
+# #  really isn't one in Arc the same way there is for Rasters.
+# #  However, when we work with feature classes, we create
+# #  feature layers that exist temporarily during a session, which
+# #  is kind of like an object.   
 
-#  Go to lab4_functions and find the class
-#   for SmartVectorLayer. 
+# #  Go to lab4_functions and find the class
+# #   for SmartVectorLayer. 
 
-#  UNCOMMENT THE ENTIRE CLASS (use shift /)
+# #  UNCOMMENT THE ENTIRE CLASS (use shift /)
 
-#  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-#  Following my comment prompts in that file, 
-#   fill out the code to make the 
-#   "zonal_stats_to_field" method work.  
+# #  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+# #  Following my comment prompts in that file, 
+# #   fill out the code to make the 
+# #   "zonal_stats_to_field" method work.  
 
-#   Then uncomment the next few lines, run them to summarize
-#     the NDVI image we just created into a new
-#     field called mean_ndvi
+# #   Then uncomment the next few lines, run them to summarize
+# #     the NDVI image we just created into a new
+# #     field called mean_ndvi
 
 
-importlib.reload(l4)
-fc = "Corvallis_parcels" # remember you should have copied this into your workspace in Block 2.
+# importlib.reload(l4)
+# fc = "Corvallis_parcels" # remember you should have copied this into your workspace in Block 2.
 
-#Load the fc as a smart vector layer
-smart_vector = l4.SmartVectorLayer(fc)
+# #Load the fc as a smart vector layer
+# smart_vector = l4.SmartVectorLayer(fc)
 
-# then get the zonal stats using the mean value
-smart_vector.zonal_stats_to_field(out_ndvi_file, output_field = "NDVI_mean")
+# # then get the zonal stats using the mean value
+# smart_vector.zonal_stats_to_field(out_ndvi_file, output_field = "NDVI_mean")
 
-# then save it as a new feature class!
-smart_vector.save_as("Corvallis_parcels_plusNDVI")
+# # then save it as a new feature class!
+# smart_vector.save_as("Corvallis_parcels_plusNDVI")
 
 
-# Question 5.1
+# # Question 5.1
 
-#  Re-load the file in your Arc session, and the NDVI
-#    file as well.  
-#    Does it look like the zonal stats for NDVI worked
-#     reasonably?  Any observations or oddities? 
-# 
+# #  Re-load the file in your Arc session, and the NDVI
+# #    file as well.  
+# #    Does it look like the zonal stats for NDVI worked
+# #     reasonably?  Any observations or oddities? 
+# # 
 
-#Your answer
+# #Your answer
 
 
 
 
 
 
-# Block 6: 
-#  Now we'll add functionality to pull this information 
-#   into a Pandas data frame
+# # Block 6: 
+# #  Now we'll add functionality to pull this information 
+# #   into a Pandas data frame
 
 
-# Go to the Lab4_functions.py, uncomment all of the code
-#  in the "extract_to_pandas_df" chunk of smart vector, 
-#  and add the small chunk of code I have asked you
-#  to do.  Most of the functionality is already there
+# # Go to the Lab4_functions.py, uncomment all of the code
+# #  in the "extract_to_pandas_df" chunk of smart vector, 
+# #  and add the small chunk of code I have asked you
+# #  to do.  Most of the functionality is already there
 
 
-okay, df = smart_vector.extract_to_pandas_df()
+# okay, df = smart_vector.extract_to_pandas_df()
 
 
-# Question 6.1. 
-#  In the extract_to_pandas_df, what does it mean
-#   that I define the "fields=None" in the original
-#   call to the method, and how do I use it in the
-#   code?  
+# # Question 6.1. 
+# #  In the extract_to_pandas_df, what does it mean
+# #   that I define the "fields=None" in the original
+# #   call to the method, and how do I use it in the
+# #   code?  
 
-# Your answer
+# # Your answer
 
 
 
 
 
-#################################################
-# Block 7: 
-#  Now we're going to take advantage of the Pandas
-#   link with matplotlib to make a graph
+# #################################################
+# # Block 7: 
+# #  Now we're going to take advantage of the Pandas
+# #   link with matplotlib to make a graph
 
-# First, uncomment the code for the "smartPanda" 
-#  class in the lab4_functions.py, and run this code
-#  below.  You can just run this -- no need to 
-#  fix or add anything. 
+# # First, uncomment the code for the "smartPanda" 
+# #  class in the lab4_functions.py, and run this code
+# #  below.  You can just run this -- no need to 
+# #  fix or add anything. 
 
-importlib.reload(l4)
+# importlib.reload(l4)
 
-x_field = "YEAR_BUILT"
-y_field = "NDVI_mean" 
+# x_field = "YEAR_BUILT"
+# y_field = "NDVI_mean" 
 
-sp = l4.smartPanda(df)  # create the new smartPanda type
+# sp = l4.smartPanda(df)  # create the new smartPanda type
 
-sp.scatterplot(x_field, y_field, x_min=1901, x_max = 2030)
+# sp.scatterplot(x_field, y_field, x_min=1901, x_max = 2030)
 
 
-# question 7.1
-#  in the scatterplot function, I have this piece of code:
-#  if x_min is not None:
-#           df_to_plot = df_to_plot[df_to_plot[x_field] >= x_min]
-#  You'll note that I use the same test for x_min not being "None". 
-# But what about the second line -- what is df_to_plot, 
-#    and what does this line achieve? 
-#  
+# # question 7.1
+# #  in the scatterplot function, I have this piece of code:
+# #  if x_min is not None:
+# #           df_to_plot = df_to_plot[df_to_plot[x_field] >= x_min]
+# #  You'll note that I use the same test for x_min not being "None". 
+# # But what about the second line -- what is df_to_plot, 
+# #    and what does this line achieve? 
+# #  
 
 
-# Your answer:
+# # Your answer:
 
 
 
 
 
-###############################################################
-#  Block 8
+# ###############################################################
+# #  Block 8
 
-#  For our final show, we'll read the parameters we want to make
-#   the plot from an external file, and then use those to create
-#   the plot and write it to a PNG graphic file.  
-#  The control file with the parameters is a comma-delimted 
-#   format -- .csv -- that can be easily read and written 
-#   from a spreadsheet program like excel (or even just a 
-#      text editor)
+# #  For our final show, we'll read the parameters we want to make
+# #   the plot from an external file, and then use those to create
+# #   the plot and write it to a PNG graphic file.  
+# #  The control file with the parameters is a comma-delimted 
+# #   format -- .csv -- that can be easily read and written 
+# #   from a spreadsheet program like excel (or even just a 
+# #      text editor)
 
-#  First, go into the smartPanda class and examine
-#     the "plot_from_file" method. 
-#  Then, copy the .csv file into your local directory.
-#   Source .csv:  in the R: drive Data\Lab4_2025\params_1.csv
-#   destination:  put this in your student folder in the 
-#     lab4\PythonCode folder. 
-#    Why?  This is where your Python interpreter is considering
-#      the working directory for it (not the arcpy workspace, but
-#      the python working directory to read and write files, load
-#      functions,etc.)
-#      Thus, you can point to the file itself without  the full
-#      path if you want. 
+# #  First, go into the smartPanda class and examine
+# #     the "plot_from_file" method. 
+# #  Then, copy the .csv file into your local directory.
+# #   Source .csv:  in the R: drive Data\Lab4_2025\params_1.csv
+# #   destination:  put this in your student folder in the 
+# #     lab4\PythonCode folder. 
+# #    Why?  This is where your Python interpreter is considering
+# #      the working directory for it (not the arcpy workspace, but
+# #      the python working directory to read and write files, load
+# #      functions,etc.)
+# #      Thus, you can point to the file itself without  the full
+# #      path if you want. 
 
-# You have the SmartPanda as "sp" from above, right?
-#   Here, and you have the name of the file for the control file
-#  Below, simply call the "plot_from_file" method to run the .csv fil
+# # You have the SmartPanda as "sp" from above, right?
+# #   Here, and you have the name of the file for the control file
+# #  Below, simply call the "plot_from_file" method to run the .csv fil
 
-param_file = 'params_1.csv'  #  this assumes you've placed in the 
-                            # python code directory you're working in here. 
-# Your code:
+# param_file = 'params_1.csv'  #  this assumes you've placed in the 
+#                             # python code directory you're working in here. 
+# # Your code:
 
 
 
-#  My code
+# #  My code
 
-ok = sp.plot_from_file(param_file)
-if ok:
-    print("Done plotting")
+# ok = sp.plot_from_file(param_file)
+# if ok:
+#     print("Done plotting")
 
 
-# Now check the output graphic and make sure it worked. 
+# # Now check the output graphic and make sure it worked. 
 
-# Now, save the .csv file under a different name, 
-#   change the inputs -- either add in some 
-#   x or y min, max values, or change
-#    the fields. 
-#   note the name of the .csv in your journal, 
-#    and then save the .png file along with that in the 
-#    journal. 
-#   Try a couple different variants of fields and ranges
+# # Now, save the .csv file under a different name, 
+# #   change the inputs -- either add in some 
+# #   x or y min, max values, or change
+# #    the fields. 
+# #   note the name of the .csv in your journal, 
+# #    and then save the .png file along with that in the 
+# #    journal. 
+# #   Try a couple different variants of fields and ranges
 
-# Question 8.1
-#  What will happen if you give it a field that is not
-#    numeric?   How might you make this work better?
+# # Question 8.1
+# #  What will happen if you give it a field that is not
+# #    numeric?   How might you make this work better?
 
-# Your answer
+# # Your answer
 
 
 
 
-# Question 8.2
-#  In your lab document, paste in a couple of the
-#    examples of the output .png files. 
+# # Question 8.2
+# #  In your lab document, paste in a couple of the
+# #    examples of the output .png files. 
 
 
 
-# Question 8.3
-#   I don't like having to type the name of the 
-#   output file because I usually just want to 
-#   document the x and y variables in the filename
-#   Can you describe (in words, no need for code)
-#   how you might achieve that?
+# # Question 8.3
+# #   I don't like having to type the name of the 
+# #   output file because I usually just want to 
+# #   document the x and y variables in the filename
+# #   Can you describe (in words, no need for code)
+# #   how you might achieve that?
 
-# Your answer:
+# # Your answer:
 
 
 
