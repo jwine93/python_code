@@ -149,35 +149,44 @@ smart_vector.save_as("Corvallis_parcels_plusNDVI")
 # #     reasonably?  Any observations or oddities? 
 # # 
 
-# #Your answer
+# #Your answer 
+
+# Looking at the map and the zonal stats, the NDVI values
+# seem to be reasonable. The mean NDVI is higher in parcels 
+# with more pixels of green in the Landsat image
+# and the NDVI raster, which is expected.  The pixel size 
+# compared to the size of the parcels in the neighborhoods of Corvallis
+# might make the averages less reliable. Also, the bigger parcels
+# have a mix of NDVI values, so the mean might not be representative.
 
 
+# ----------------------
+
+# Block 6: 
+#  Now we'll add functionality to pull this information 
+#   into a Pandas data frame
 
 
+# Go to the Lab4_functions.py, uncomment all of the code
+#  in the "extract_to_pandas_df" chunk of smart vector, 
+#  and add the small chunk of code I have asked you
+#  to do.  Most of the functionality is already there
 
 
-# # Block 6: 
-# #  Now we'll add functionality to pull this information 
-# #   into a Pandas data frame
+okay, df = smart_vector.extract_to_pandas_df()
 
 
-# # Go to the Lab4_functions.py, uncomment all of the code
-# #  in the "extract_to_pandas_df" chunk of smart vector, 
-# #  and add the small chunk of code I have asked you
-# #  to do.  Most of the functionality is already there
+# Question 6.1. 
+#  In the extract_to_pandas_df, what does it mean
+#   that I define the "fields=None" in the original
+#   call to the method, and how do I use it in the
+#   code?  
 
-
-# okay, df = smart_vector.extract_to_pandas_df()
-
-
-# # Question 6.1. 
-# #  In the extract_to_pandas_df, what does it mean
-# #   that I define the "fields=None" in the original
-# #   call to the method, and how do I use it in the
-# #   code?  
-
-# # Your answer
-
+# Your answer: Defining "fields=None" in the original function
+# means that it is an optional argumetn. In the code, the if else 
+# checks if the user has entered a value for fields. If they didn't, 
+# then the list comprehension will be used to create a list of field names. 
+# Otherwise, it wil check that the entered fields exist and are valid.
 
 
 

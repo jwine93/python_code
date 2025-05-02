@@ -251,46 +251,51 @@ class SmartVectorLayer:
 
 # Block 6 -----------------
 
-    # # Take our vector object and turn it into a pandas dataframe
+    # Take our vector object and turn it into a pandas dataframe
 
-    # def extract_to_pandas_df(self, fields=None):
-    #     # set up tracker variable
-    #     okay = True
+    def extract_to_pandas_df(self, fields=None):
+        # set up tracker variable
+        okay = True
 
-    #     #First, get the list of fields to extract if the user did 
-    #     #  not pass them
+        #First, get the list of fields to extract if the user did 
+        #  not pass them
 
-    #     if fields is None: # If the user did not pass anything
-    #         # List all field names (excluding geometry)
-    #         fields = [f.name for f in arcpy.ListFields(self.feature_class) if f.type not in ('Geometry', 'OID')]
-    #     else: 
-    #         #check to make sure that the fields given are actually in the table, 
-    #         #   and make sure to exclue the geometry and oid.
+        if fields is None: # If the user did not pass anything
+            # List all field names (excluding geometry)
+            fields = [f.name for f in arcpy.ListFields(self.feature_class) if f.type not in ('Geometry', 'OID')]
+        else: 
+            #check to make sure that the fields given are actually in the table, 
+            #   and make sure to exclue the geometry and oid.
 
-    #         true_fields = [f.name for f in arcpy.ListFields(self.feature_class) if f.type not in ('Geometry', 'OID')]
+            true_fields = [f.name for f in arcpy.ListFields(self.feature_class) if f.type not in ('Geometry', 'OID')]
 
-    #         #accumulate the ones that do not match
-    #         disallowed = [user_f for user_f in fields if user_f not in true_fields]
+            #accumulate the ones that do not match
+            disallowed = [user_f for user_f in fields if user_f not in true_fields]
 
-    #         # if the list is not empty, let the user know
-    #         if len(disallowed) != 0:
-    #             print("Fields given by user are not valid for this table")
-    #             print(disallowed)
-    #             okay = False
-    #             return okay, None
+            # if the list is not empty, let the user know
+            if len(disallowed) != 0:
+                print("Fields given by user are not valid for this table")
+                print(disallowed)
+                okay = False
+                return okay, None
         
-    #     # Step 2: Create a search cursor and extract rows
-    #     #    to a "rows" list variable.  This is a very short 
-    #     #    command -- should be old hat by now!  
+        # Step 2: Create a search cursor and extract rows
+        #    to a "rows" list variable.  This is a very short 
+        #    command -- should be old hat by now!  
 
-    #     # vvvvvvvvvvvvvvv
-    #     # Your code: 
+        # vvvvvvvvvvvvvvv
+        # Your code: 
+    
+        # extract data using the search cursor
+        rows = [] # empty list to hold the rows
+        with arcpy.da.SearchCursor(self.feature_class, fields) as cursor:
+            for row in cursor:
+                rows.append(row)
 
-
-    #     # Step 3: Convert to pandas DataFrame
-    #     df = pd.DataFrame(rows, columns=fields)
+        # Step 3: Convert to pandas DataFrame
+        df = pd.DataFrame(rows, columns=fields)
                 
-    #     return okay, df
+        return okay, df
 
 
 # Uncomment this when you get to the appropriate block in the scripts
