@@ -72,7 +72,6 @@ print(r.metadata["bounds"])
 #  Again, you'll need to add code to the calculate_ndvi function
 importlib.reload(l4)
 
-# not sure what to pu tas arguments in this function???
 okay, ndvi = r.calculate_ndvi()
 
 # Assuming this is okay, write it to a new raster that we can use later
@@ -97,45 +96,49 @@ else:
 #    are relevant -- band 4 and 3.  But we didn't
 #    set them here -- why did it work?
 
-#  Your answer:
+#  Your answer: It worked because we set default values in the 
+# function by setting band4_index = 4 and band3_index = 3. 
+# This way, when we don't specify a value, python automatically 
+# uses the default in the function. In this case it is useful 
+# because NDVI is always calculated with those bands.
 
 
 
 
-# ##########################################################
-# # Block 5:  Now, let's look at setting up an equivalent type of
-# #  vector object.  This is going to be different because there
-# #  really isn't one in Arc the same way there is for Rasters.
-# #  However, when we work with feature classes, we create
-# #  feature layers that exist temporarily during a session, which
-# #  is kind of like an object.   
+##########################################################
+# Block 5:  Now, let's look at setting up an equivalent type of
+#  vector object.  This is going to be different because there
+#  really isn't one in Arc the same way there is for Rasters.
+#  However, when we work with feature classes, we create
+#  feature layers that exist temporarily during a session, which
+#  is kind of like an object.   
 
-# #  Go to lab4_functions and find the class
-# #   for SmartVectorLayer. 
+#  Go to lab4_functions and find the class
+#   for SmartVectorLayer. 
 
-# #  UNCOMMENT THE ENTIRE CLASS (use shift /)
+#  UNCOMMENT THE ENTIRE CLASS (use shift /)
 
-# #  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-# #  Following my comment prompts in that file, 
-# #   fill out the code to make the 
-# #   "zonal_stats_to_field" method work.  
+#  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+#  Following my comment prompts in that file, 
+#   fill out the code to make the 
+#   "zonal_stats_to_field" method work.  
 
-# #   Then uncomment the next few lines, run them to summarize
-# #     the NDVI image we just created into a new
-# #     field called mean_ndvi
+#   Then uncomment the next few lines, run them to summarize
+#     the NDVI image we just created into a new
+#     field called mean_ndvi
 
 
-# importlib.reload(l4)
-# fc = "Corvallis_parcels" # remember you should have copied this into your workspace in Block 2.
+importlib.reload(l4)
+fc = "Corvallis_parcels" # remember you should have copied this into your workspace in Block 2.
 
-# #Load the fc as a smart vector layer
-# smart_vector = l4.SmartVectorLayer(fc)
+#Load the fc as a smart vector layer
+smart_vector = l4.SmartVectorLayer(fc)
 
-# # then get the zonal stats using the mean value
-# smart_vector.zonal_stats_to_field(out_ndvi_file, output_field = "NDVI_mean")
+# then get the zonal stats using the mean value
+smart_vector.zonal_stats_to_field(out_ndvi_file, output_field = "NDVI_mean")
 
-# # then save it as a new feature class!
-# smart_vector.save_as("Corvallis_parcels_plusNDVI")
+# then save it as a new feature class!
+smart_vector.save_as("Corvallis_parcels_plusNDVI")
 
 
 # # Question 5.1
