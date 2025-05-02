@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import jvw_Lab4_functions as l4
 import importlib
 
+print("done with imports")
 ## TESTING
 
 # Block 1:  set up github
@@ -25,7 +26,8 @@ import importlib
 # Set the workspace to point to the geodatabase you are using for this lab
 
 arcpy.env.workspace = r"R:\2025\Spring\GEOG562\Students\wineju\Lab4_JVW\lab4_arcproject_jvw\lab4_arcproject_jvw.gdb" 
-print("done")
+
+print("done with block 2")
 
 ############################################################################
 # Block 3:  We are going to work with the notion of extending raster objects
@@ -43,6 +45,7 @@ importlib.reload(l4)
 r = l4.SmartRaster("Landsat_image_corv")
 print(r.metadata["bounds"])
 
+print("done with block 3")
 
 # Question 1
 #  Why do we need to use the "super()" function in the definition of the SmartRaster?
@@ -89,6 +92,8 @@ if okay:
         print(f"Error writing NDVI raster: {e}")    
 else:
     print("NDVI calculation failed.")
+
+print("done with block 4")
 
 # Question 4.1 
 #  In the "calculate_ndvi", the method accepts 
@@ -138,8 +143,11 @@ smart_vector = l4.SmartVectorLayer(fc)
 smart_vector.zonal_stats_to_field(out_ndvi_file, output_field = "NDVI_mean")
 
 # then save it as a new feature class!
-smart_vector.save_as("Corvallis_parcels_plusNDVI")
-
+try:
+    smart_vector.save_as("Corvallis_parcels_plusNDVI")
+except Exception as e:
+    print(f"Error saving NDVI feature class: {e}")
+print("done with block 5")
 
 # # Question 5.1
 
@@ -174,7 +182,7 @@ smart_vector.save_as("Corvallis_parcels_plusNDVI")
 
 
 okay, df = smart_vector.extract_to_pandas_df()
-
+print("done with block 6")
 
 # Question 6.1. 
 #  In the extract_to_pandas_df, what does it mean
@@ -191,38 +199,41 @@ okay, df = smart_vector.extract_to_pandas_df()
 
 
 
-# #################################################
-# # Block 7: 
-# #  Now we're going to take advantage of the Pandas
-# #   link with matplotlib to make a graph
+#################################################
+# Block 7: 
+#  Now we're going to take advantage of the Pandas
+#   link with matplotlib to make a graph
 
-# # First, uncomment the code for the "smartPanda" 
-# #  class in the lab4_functions.py, and run this code
-# #  below.  You can just run this -- no need to 
-# #  fix or add anything. 
+# First, uncomment the code for the "smartPanda" 
+#  class in the lab4_functions.py, and run this code
+#  below.  You can just run this -- no need to 
+#  fix or add anything. 
 
-# importlib.reload(l4)
+importlib.reload(l4)
 
-# x_field = "YEAR_BUILT"
-# y_field = "NDVI_mean" 
+x_field = "YEAR_BUILT"
+y_field = "NDVI_mean" 
 
-# sp = l4.smartPanda(df)  # create the new smartPanda type
+sp = l4.smartPanda(df)  # create the new smartPanda type
 
-# sp.scatterplot(x_field, y_field, x_min=1901, x_max = 2030)
-
-
-# # question 7.1
-# #  in the scatterplot function, I have this piece of code:
-# #  if x_min is not None:
-# #           df_to_plot = df_to_plot[df_to_plot[x_field] >= x_min]
-# #  You'll note that I use the same test for x_min not being "None". 
-# # But what about the second line -- what is df_to_plot, 
-# #    and what does this line achieve? 
-# #  
+sp.scatterplot(x_field, y_field, x_min=1901, x_max = 2030)
 
 
-# # Your answer:
+# question 7.1
+#  in the scatterplot function, I have this piece of code:
+#  if x_min is not None:
+#           df_to_plot = df_to_plot[df_to_plot[x_field] >= x_min]
+#  You'll note that I use the same test for x_max not being "None". 
+# But what about the second line -- what is df_to_plot, 
+#    and what does this line achieve? 
+#  
 
+
+# Your answer:
+# df_to_plot is a filtered version of the original dataframe. The line
+# takes the data frame from the argument of the function and filters it 
+# to only include rows where the x_field is greater than or equal to x_min. 
+# The subsequent lines do the same for the other ranges.
 
 
 
