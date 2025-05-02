@@ -460,6 +460,11 @@ class smartPanda(pd.DataFrame):
         for p in optional_params:
             if p not in param_dict.keys():
                 param_dict[p] = None
+                try:
+                    param_dict[p] = float(param_dict[p]) # convert to float
+                except ValueError:
+                    print(f"Could not convert {p} to float. Defaulting to None.")
+                    param_dict[p] = None
 
         # Finally, do the plot! 
         try:

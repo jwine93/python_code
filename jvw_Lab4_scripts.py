@@ -218,6 +218,7 @@ sp = l4.smartPanda(df)  # create the new smartPanda type
 
 sp.scatterplot(x_field, y_field, x_min=1901, x_max = 2030)
 
+print("done with block 7")
 
 # question 7.1
 #  in the scatterplot function, I have this piece of code:
@@ -238,81 +239,92 @@ sp.scatterplot(x_field, y_field, x_min=1901, x_max = 2030)
 
 
 
-# ###############################################################
-# #  Block 8
+###############################################################
+#  Block 8
 
-# #  For our final show, we'll read the parameters we want to make
-# #   the plot from an external file, and then use those to create
-# #   the plot and write it to a PNG graphic file.  
-# #  The control file with the parameters is a comma-delimted 
-# #   format -- .csv -- that can be easily read and written 
-# #   from a spreadsheet program like excel (or even just a 
-# #      text editor)
+#  For our final show, we'll read the parameters we want to make
+#   the plot from an external file, and then use those to create
+#   the plot and write it to a PNG graphic file.  
+#  The control file with the parameters is a comma-delimted 
+#   format -- .csv -- that can be easily read and written 
+#   from a spreadsheet program like excel (or even just a 
+#      text editor)
 
-# #  First, go into the smartPanda class and examine
-# #     the "plot_from_file" method. 
-# #  Then, copy the .csv file into your local directory.
-# #   Source .csv:  in the R: drive Data\Lab4_2025\params_1.csv
-# #   destination:  put this in your student folder in the 
-# #     lab4\PythonCode folder. 
-# #    Why?  This is where your Python interpreter is considering
-# #      the working directory for it (not the arcpy workspace, but
-# #      the python working directory to read and write files, load
-# #      functions,etc.)
-# #      Thus, you can point to the file itself without  the full
-# #      path if you want. 
+#  First, go into the smartPanda class and examine
+#     the "plot_from_file" method. 
+#  Then, copy the .csv file into your local directory.
+#   Source .csv:  in the R: drive Data\Lab4_2025\params_1.csv
+#   destination:  put this in your student folder in the 
+#     lab4\PythonCode folder. 
+#    Why?  This is where your Python interpreter is considering
+#      the working directory for it (not the arcpy workspace, but
+#      the python working directory to read and write files, load
+#      functions,etc.)
+#      Thus, you can point to the file itself without  the full
+#      path if you want. 
 
-# # You have the SmartPanda as "sp" from above, right?
-# #   Here, and you have the name of the file for the control file
-# #  Below, simply call the "plot_from_file" method to run the .csv fil
+# You have the SmartPanda as "sp" from above, right?
+#   Here, and you have the name of the file for the control file
+#  Below, simply call the "plot_from_file" method to run the .csv fil
+
+importlib.reload(l4)
 
 # param_file = 'params_1.csv'  #  this assumes you've placed in the 
 #                             # python code directory you're working in here. 
 # # Your code:
 
-
-
-# #  My code
-
 # ok = sp.plot_from_file(param_file)
 # if ok:
 #     print("Done plotting")
+# else:
+#     print("Error plotting from file")
 
 
-# # Now check the output graphic and make sure it worked. 
+# Now check the output graphic and make sure it worked. 
 
-# # Now, save the .csv file under a different name, 
-# #   change the inputs -- either add in some 
-# #   x or y min, max values, or change
-# #    the fields. 
-# #   note the name of the .csv in your journal, 
-# #    and then save the .png file along with that in the 
-# #    journal. 
-# #   Try a couple different variants of fields and ranges
-
-# # Question 8.1
-# #  What will happen if you give it a field that is not
-# #    numeric?   How might you make this work better?
-
-# # Your answer
+# Now, save the .csv file under a different name, 
+#   change the inputs -- either add in some 
+#   x or y min, max values, or change
+#    the fields. 
+#   note the name of the .csv in your journal, 
+#    and then save the .png file along with that in the 
+#    journal. 
+#   Try a couple different variants of fields and ranges
 
 
+param_file = 'params_jvw.csv'  #  new csv file with different parameters 
+# Your code:
+
+ok = sp.plot_from_file(param_file)
+if ok:
+    print("Done plotting")
+else:
+    print("Error plotting from file")
 
 
-# # Question 8.2
-# #  In your lab document, paste in a couple of the
-# #    examples of the output .png files. 
+# Question 8.1
+#  What will happen if you give it a field that is not
+#    numeric?   How might you make this work better?
+
+# Your answer
 
 
 
-# # Question 8.3
-# #   I don't like having to type the name of the 
-# #   output file because I usually just want to 
-# #   document the x and y variables in the filename
-# #   Can you describe (in words, no need for code)
-# #   how you might achieve that?
 
-# # Your answer:
+# Question 8.2
+#  In your lab document, paste in a couple of the
+#    examples of the output .png files. 
+
+
+
+# Question 8.3
+#   I don't like having to type the name of the 
+#   output file because I usually just want to 
+#   document the x and y variables in the filename
+#   Can you describe (in words, no need for code)
+#   how you might achieve that?
+
+# Your answer:
 
 
 
