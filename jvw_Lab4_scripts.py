@@ -307,7 +307,11 @@ else:
 #    numeric?   How might you make this work better?
 
 # Your answer
-
+# If you give it a field that is not numeric, there will be an error
+# because the matplotlib scatterplot requires numeric values for x and y.
+# To make this work better, I could check the data types of the fields, 
+# and then assign the different categorical values different numbers.
+# For example, I could assign 1 to Oregon and 2 to California for the State field.
 
 
 
@@ -326,5 +330,9 @@ else:
 
 # Your answer:
 
-
+# I could add an if else statement in the save_scatterplot function
+# that will use a output filename if included in arguments, but will 
+# create a file name if one doesn' exist. I could do this using an
+# f string that has the x and y field names included , like this:
+#  f"{x_field}vs{y_field}.png"
 

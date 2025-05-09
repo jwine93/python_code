@@ -460,6 +460,7 @@ class smartPanda(pd.DataFrame):
         for p in optional_params:
             if p not in param_dict.keys():
                 param_dict[p] = None
+            else:
                 try:
                     param_dict[p] = float(param_dict[p]) # convert to float
                 except ValueError:
